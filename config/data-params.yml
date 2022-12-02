@@ -1,0 +1,6 @@
+expand: True
+split: 0.2
+random_state: 42
+save_path: "../data/temp/"
+train_name: "train.csv"
+test_name: "test.csv"

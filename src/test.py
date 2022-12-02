@@ -6,10 +6,13 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 from src.models.train import train
 
 def test(trainer, testdata):
+    print('initiate testing...')
     testdata = datasets.load_dataset(testdata, features = features)
     testdata = testdata.map(tokenize_function, batched = True)
     out = []
     pred = trainer.predict(testdata['test']).predictions
     for i in pred:
         out.append(int(np.where(i == max(i))[0]) - 1)
-    return np.array(out)
+    print(str(np.array(out)))
+    print('testing done')
+    return

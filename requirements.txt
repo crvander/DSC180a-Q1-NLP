@@ -3,3 +3,4 @@ datasets == 2.7.0
 evaluate == 0.3.0
 pandas
 pytorch
+sklearn
