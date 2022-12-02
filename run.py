@@ -16,7 +16,7 @@ def main(args):
     logging.info(data_config)
     df = generate_data(expand=data_config.expand)
 
-    save_data(df, split=data_config.split, random_state=data_config.random_state, save_path=data_config.save_path),
+    save_data(df, split=data_config.split, random_state=data_config.random_state, save_path=data_config.save_path, train_name = data_config.train_name, test_name = data_config.test_name),
 
     logging.info('loading training-params...')
     with open('config/train-params.yml', 'r') as file:

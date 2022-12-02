@@ -4,17 +4,20 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import logging
 
+import os
+os.environ['KAGGLE_CONFIG_DIR'] = "data"
+
 def generate_data(expand = 'True'):
     logging.info('downloading datasets....')
-    # subprocess.run('~/.local/bin/kaggle datasets download -p /home/xic023/DSC180A-Methodology-5/data/raw ankurzing/sentiment-analysis-for-financial-news', shell = True, stdout = subprocess.PIPE)
-    # subprocess.run('~/.local/bin/kaggle datasets download -p /home/xic023/DSC180A-Methodology-5/data/raw yash612/stockmarket-sentiment-dataset', shell = True, stdout = subprocess.PIPE)
-    # subprocess.run('unzip /home/xic023/DSC180A-Methodology-5/data/raw/\*.zip -d /home/xic023/DSC180A-Methodology-5/data/raw', shell = True, stdout = subprocess.PIPE)
-
+    subprocess.run('~/.local/bin/kaggle datasets download -p data/raw ankurzing/sentiment-analysis-for-financial-news', shell = True, stdout = subprocess.PIPE)
+    subprocess.run('~/.local/bin/kaggle datasets download -p data/raw yash612/stockmarket-sentiment-dataset', shell = True, stdout = subprocess.PIPE)
+    subprocess.run('~/.local/bin/kaggle datasets download -p data/raw utkarshxy/stock-markettweets-lexicon-data', shell = True, stdout = subprocess.PIPE)
+    
     logging.info('loading datasets....')
-    df1 = pd.read_csv('../data/raw/financial-news/all-data.csv', delimiter=',', encoding='latin-1',
+    df1 = pd.read_csv('data/raw/financial-news/all-data.csv', delimiter=',', encoding='latin-1',
                       names=['sentiment', 'text'])
-    df2 = pd.read_csv('../data/raw/tweets/stock_data.csv')
-    df3 = pd.read_csv('../data/raw/tweets/tweets_labelled_09042020_16072020.csv', on_bad_lines='skip', sep=';')
+    df2 = pd.read_csv('data/raw/tweets/stock_data.csv')
+    df3 = pd.read_csv('data/raw/tweets/tweets_labelled_09042020_16072020.csv', on_bad_lines='skip', sep=';')
     # df4 = ... Dylan's api
     logging.info('datasets loaded')
 
@@ -41,9 +44,9 @@ def generate_data(expand = 'True'):
     return df
 
 
-def save_data(df, split = 0.2, random_state=42, save_path = ''):
+def save_data(df, split = 0.2, random_state=42, save_path = '', train_name = '', test_name = ''):
         logging.info('train test with {} split, random state {}'.format(split, str(random_state)))
-        train, test = train_test_split(data, test_size=split, random_state = random_state)
+        train, test = train_test_split(df, test_size=split, random_state = random_state)
         logging.info('saving training and testing data...')
         train.to_csv(save_path + train_name, index=False)
         test.to_csv(save_path + test_name, index=False)
