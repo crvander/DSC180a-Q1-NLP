@@ -3,18 +3,18 @@ import evaluate
 import torch
 import numpy as np
 from transformers import AutoTokenizer, AutoModelForSequenceClassification, TrainingArguments, Trainer, logging
-import logging
+import logging as lg
 
 def train(input_path):
-    logging.info('initiate training...')
+    lg.info('initiate training...')
     torch.cuda.empty_cache()
     if torch.cuda.is_available():
         device = torch.device('cuda')
-        logging.info('There are %d GPU(s) available.' % torch.cuda.device_count())
-        logging.info('We will use the GPU: ', torch.cuda.get_device_name(0))
+        lg.info('There are %d GPU(s) available.' % torch.cuda.device_count())
+        lg.info('We will use the GPU: ', torch.cuda.get_device_name(0))
     
     else:
-        logging.info('No GPU available, using the CPU instead.')
+        lg.info('No GPU available, using the CPU instead.')
         device = torch.device('cpu')
         
     tokenizer = AutoTokenizer.from_pretrained('ProsusAI/finbert')
@@ -48,6 +48,5 @@ def train(input_path):
                       tokenizer = tokenizer,
                       compute_metrics = compute_metrics)
     logging.info(trainer.train())
-    logging.info('training done.')
+    lg.info('training done.')
     return trainer
-    
