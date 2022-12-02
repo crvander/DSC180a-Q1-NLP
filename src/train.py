@@ -29,7 +29,7 @@ def train(input_path):
     tokenized_train = train.map(tokenize_function, batched = True)
     tokenized_test = test.map(tokenize_function, batched = True)
     args = {
-        'output_dir': '/home/xic023/DSC180A-Methodology-5/results',
+        'output_dir': 'results',
         'evaluation_strategy': 'epoch',
         'num_train_epochs': 1,
         'log_level': 'error',

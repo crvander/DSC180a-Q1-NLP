@@ -10,6 +10,7 @@ from test import test
 import logging
 
 def main(args):
+    logging.basicConfig(filename='myapp.log', level=logging.INFO)
     logging.info('loading data-params...')
     with open('config/data-params.yml', 'r') as file:
         data_config = Box(yaml.full_load(file))

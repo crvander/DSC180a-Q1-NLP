@@ -12,12 +12,13 @@ def generate_data(expand = 'True'):
     subprocess.run('~/.local/bin/kaggle datasets download -p data/raw ankurzing/sentiment-analysis-for-financial-news', shell = True, stdout = subprocess.PIPE)
     subprocess.run('~/.local/bin/kaggle datasets download -p data/raw yash612/stockmarket-sentiment-dataset', shell = True, stdout = subprocess.PIPE)
     subprocess.run('~/.local/bin/kaggle datasets download -p data/raw utkarshxy/stock-markettweets-lexicon-data', shell = True, stdout = subprocess.PIPE)
+    subprocess.run('unzip data/raw/\*.zip -d data/raw', shell = True, stdout = subprocess.PIPE)
     
     logging.info('loading datasets....')
-    df1 = pd.read_csv('data/raw/financial-news/all-data.csv', delimiter=',', encoding='latin-1',
+    df1 = pd.read_csv('data/raw/all-data.csv', delimiter=',', encoding='latin-1',
                       names=['sentiment', 'text'])
-    df2 = pd.read_csv('data/raw/tweets/stock_data.csv')
-    df3 = pd.read_csv('data/raw/tweets/tweets_labelled_09042020_16072020.csv', on_bad_lines='skip', sep=';')
+    df2 = pd.read_csv('data/raw/stock_data.csv')
+    df3 = pd.read_csv('data/raw/tweets_labelled_09042020_16072020.csv', on_bad_lines='skip', sep=';')
     # df4 = ... Dylan's api
     logging.info('datasets loaded')
 
@@ -33,6 +34,8 @@ def generate_data(expand = 'True'):
     df1['sentiment'] = df1['sentiment'].apply(convert_sentiment)
     df1 = df1[['text', 'sentiment']]
     df2.rename(columns={'Text': 'text', 'Sentiment': 'sentiment'}, inplace=True)
+    df3 = df3.dropna()[['text', 'sentiment']]
+    df3['sentiment'] = df3['sentiment'].apply(convert_sentiment)
     df3.rename(columns={'Sentiment': 'sentiment', 'Text': 'text'}, inplace=True)
     if expand:                  # to concat Dylan's data
         # df = pd.concat([df1, df2, df3, df4], ignore_index=True, axis=0)
