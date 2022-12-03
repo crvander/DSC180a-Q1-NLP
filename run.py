@@ -1,32 +1,38 @@
 import sys
 import yaml
 import pandas as pd
+import time
 from box import Box
 
 sys.path.insert(0, 'src')
-from data.make_dataset import generate_data, save_data
+from data.make_dataset import download_data, generate_data, save_data
 from train import train
 from test import test
 import logging
 
 def main(args):
     logging.basicConfig(filename='myapp.log', level=logging.INFO)
+    logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
     logging.info('loading data-params...')
-    with open('config/data-params.yml', 'r') as file:
+    with open('config/data-params.yml', 'r') as file: # All config will be read in module files
         data_config = Box(yaml.full_load(file))
-    logging.info(data_config)
-    df = generate_data(expand=data_config.expand)
-
-    save_data(df, split=data_config.split, random_state=data_config.random_state, save_path=data_config.save_path, train_name = data_config.train_name, test_name = data_config.test_name),
+    logging.info(data_config) # here only for logging
+    
+    download_data()
+    df = generate_data()
+    save_data(df)
 
     logging.info('loading training-params...')
     with open('config/train-params.yml', 'r') as file:
         train_config = Box(yaml.full_load(file))
     logging.info(train_config)
+     
+    start = time.time()
+    trainer = train()
+    end = time.time()
+    logging.info('training time: ' + str(end - start))
 
-#    trainer = train(path=train_config.input_path)
-
-    #test()
+#     test(trainer, )
     return
 
 

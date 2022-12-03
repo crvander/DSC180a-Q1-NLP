@@ -3,22 +3,56 @@ import sys
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import logging
-
+from box import Box
+import yaml
 import os
-os.environ['KAGGLE_CONFIG_DIR'] = "data"
 
-def generate_data(expand = 'True'):
-    logging.info('downloading datasets....')
-    subprocess.run('~/.local/bin/kaggle datasets download -p data/raw ankurzing/sentiment-analysis-for-financial-news', shell = True, stdout = subprocess.PIPE)
-    subprocess.run('~/.local/bin/kaggle datasets download -p data/raw yash612/stockmarket-sentiment-dataset', shell = True, stdout = subprocess.PIPE)
-    subprocess.run('~/.local/bin/kaggle datasets download -p data/raw utkarshxy/stock-markettweets-lexicon-data', shell = True, stdout = subprocess.PIPE)
-    subprocess.run('unzip data/raw/\*.zip -d data/raw', shell = True, stdout = subprocess.PIPE)
+with open('config/data-params.yml', 'r') as file:
+    data_config = Box(yaml.full_load(file))
     
-    logging.info('loading datasets....')
-    df1 = pd.read_csv('data/raw/all-data.csv', delimiter=',', encoding='latin-1',
+os.environ['KAGGLE_CONFIG_DIR'] = data_config.data_path
+random_state = data_config.random_state
+split = data_config.split
+save_path = data_config.save_path
+save_path_raw = data_config.save_path_raw
+train_name = data_config.train_name
+test_name = data_config.test_name
+expand = data_config.expand
+    
+ds1 = data_config.ds1_name
+ds2 = data_config.ds2_name
+ds3 = data_config.ds3_name
+#     ds4...
+
+ds1_path = data_config.ds1_path
+ds2_path = data_config.ds2_path
+ds3_path = data_config.ds3_path
+#     ds4...
+
+df1_name = data_config.df1_name
+df2_name = data_config.df2_name
+df3_name = data_config.df3_name
+
+def download_data():
+    dir = os.listdir(save_path_raw)
+    logging.info('downloading datasets....')
+    if ds1 not in dir:
+        subprocess.run('~/.local/bin/kaggle datasets download -p {} {}'.format(save_path_raw, ds1_path), shell = True, stdout = subprocess.PIPE)
+    if ds2 not in dir:
+        subprocess.run('~/.local/bin/kaggle datasets download -p {} {}'.format(save_path_raw, ds2_path), shell = True, stdout = subprocess.PIPE)
+    if ds3 not in dir:
+        subprocess.run('~/.local/bin/kaggle datasets download -p {} {}'.format(save_path_raw, ds3_path), shell = True, stdout = subprocess.PIPE)
+    if (df1_name not in dir or df2_name not in dir ) or df3_name not in dir:
+        subprocess.run('unzip {}/\*.zip -d {}'.format(save_path_raw, save_path_raw), shell = True, stdout = subprocess.PIPE)    
+        # df4 = ... Dylan's api
+    logging.info('downloading done.')
+
+def generate_data():
+    logging.info('loading datasets from {}....'.format(save_path_raw))
+    df1 = pd.read_csv('{}/{}'.format(save_path_raw, df1_name), delimiter=',', encoding='latin-1',
                       names=['sentiment', 'text'])
-    df2 = pd.read_csv('data/raw/stock_data.csv')
-    df3 = pd.read_csv('data/raw/tweets_labelled_09042020_16072020.csv', on_bad_lines='skip', sep=';')
+    df2 = pd.read_csv('{}/{}'.format(save_path_raw, df2_name))
+    df3 = pd.read_csv('{}/{}'.format(save_path_raw, df3_name), on_bad_lines='skip', sep=';')
     # df4 = ... Dylan's api
     logging.info('datasets loaded')
 
@@ -47,7 +81,7 @@ def generate_data(expand = 'True'):
     return df
 
 
-def save_data(df, split = 0.2, random_state=42, save_path = '', train_name = '', test_name = ''):
+def save_data(df):
         logging.info('train test with {} split, random state {}'.format(split, str(random_state)))
         train, test = train_test_split(df, test_size=split, random_state = random_state)
         logging.info('saving training and testing data...')
