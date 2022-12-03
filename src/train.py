@@ -21,6 +21,7 @@ log_level = train_config.log_level
 report_to = train_config.report_to
 per_device_train_batch_size = train_config.per_device_train_batch_size
 metric_name = train_config.metric_name
+save_strategy = train_config.save_strategy
 
 def train():
     logging.info('initiate training...')
@@ -53,7 +54,8 @@ def train():
         'num_train_epochs': num_train_epochs,
         'log_level': log_level,
         'report_to': report_to,
-        'per_device_train_batch_size' : per_device_train_batch_size
+        'per_device_train_batch_size' : per_device_train_batch_size,
+        'save_strategy' : save_strategy
     }
     
     metric = evaluate.load(metric_name)
