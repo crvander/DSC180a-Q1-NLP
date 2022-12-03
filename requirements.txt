@@ -4,5 +4,5 @@ evaluate == 0.3.0
 python-box[all]~=6.0
 kaggle
 pandas
-pytorch
+torch
 sklearn
