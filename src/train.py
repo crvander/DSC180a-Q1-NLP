@@ -70,6 +70,7 @@ def train():
                       eval_dataset = tokenized_test,
                       tokenizer = tokenizer,
                       compute_metrics = compute_metrics)
+    trainer.save_model(model_name)
     logging.info(trainer.train())
     logging.info('training done.')
-    return trainer
+    return model_name

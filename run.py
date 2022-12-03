@@ -1,9 +1,8 @@
 import sys
 import yaml
+from box import Box
 import pandas as pd
 import time
-from box import Box
-
 sys.path.insert(0, 'src')
 from data.make_dataset import download_data, generate_data, save_data
 from train import train
@@ -31,8 +30,9 @@ def main(args):
     trainer = train()
     end = time.time()
     logging.info('training time: ' + str(end - start))
-
-#     test(trainer, )
+    
+    logging.info('test start...')
+    test(test_lines = 50)
     return
 
 
