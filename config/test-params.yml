@@ -1,5 +1,6 @@
 model_path: 'results/'
-input_path: 'data/temp/test.csv'
+test_path: 'data/temp/test.csv'
+testdata_path: 'test/testdata/test.csv'
 output_dir: 'data/out'
 preds_name: 'preds.csv'
 preds_detail_name: 'preds_detail.csv'
