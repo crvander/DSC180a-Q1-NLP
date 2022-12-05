@@ -1,4 +1,5 @@
-model_path: 'results/'
+model_path: 'results'
+model_name: 'bert-base-cased'
 test_path: 'data/temp/test.csv'
 testdata_path: 'test/testdata/test.csv'
 output_dir: 'data/out'

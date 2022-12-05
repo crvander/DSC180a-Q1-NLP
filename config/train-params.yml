@@ -2,6 +2,8 @@ input_path: 'data/temp'
 output_dir: 'results'
 model_name: 'bert-base-cased'
 tokenizer_name: 'bert-base-cased'
+# model_name: 'ProsusAI/finbert'
+# tokenizer_name: 'ProsusAI/finbert'
 padding: 'max_length'
 evaluation_strategy: 'epoch'
 num_train_epochs: 5

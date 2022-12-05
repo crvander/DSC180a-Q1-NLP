@@ -24,10 +24,10 @@ def test(test_target = 'testdata', test_lines = 3):
         input_path = testdata_path
     if test_target == 'test':
         input_path = test_path
-        
-    model = AutoModelForSequenceClassification.from_pretrained(model_path, num_labels = 3)
-    tokenizer = AutoTokenizer.from_pretrained('{}/{}'.format(model_path, model_name))
-    logging.info('initiate testing from {}/{} ...'.format(model_path, model_name))
+    model_full_path = '{}/{}/'.format(model_path, model_name)
+    logging.info('initiate testing from {} ...'.format(model_full_path))
+    model = AutoModelForSequenceClassification.from_pretrained(model_full_path, num_labels = 3)
+    tokenizer = AutoTokenizer.from_pretrained(model_full_path)
     logging.info('loading test data from {} ...'.format(input_path))
     testdata = list(pd.read_csv(input_path)['text'].head(test_lines)) # test out the first 50 from test.csv
     logging.info('predicting ...'.format(input_path))
