@@ -36,6 +36,7 @@ Finetuned models, no matter directly output from training process, or download f
 **test.py** will take two argument, test_target and test_lines. test_target can be specified as test, which will generate prediction on testing data
 or default as testdata to predict on testrun dummy data. All prediction will be saved in data/out.
 
+```
 DSC180a-Q1-NLP                                                     //
 ├─ .git                                                            //
 ├─ config                                                          //
@@ -91,4 +92,5 @@ DSC180a-Q1-NLP                                                     //
 │  └─ twitter_credentials.py                                       //
 ├─ _requirements.txt                                               //
 └─ _run.py                                                         //
+```
 
