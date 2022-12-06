@@ -10,6 +10,9 @@
 
 ### From Command Line
 ```bash
+# this will install necessary packages
+pip install -r requirements.txt
+
 # this will run the whole pipeline consists of downloading full dataset, generate data, 
 # downloading our finetuned models from google drive, unzip model folders, trainning process for new model,
 # predict sentiments on testing dataset
