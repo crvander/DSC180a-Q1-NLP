@@ -17,7 +17,6 @@ with open('config/test-params.yml', 'r') as file:
     testdata_path = test_config.testdata_path
     output_dir = test_config.output_dir
     preds_name = test_config.preds_name
-    preds_detail_name = test_config.preds_detail_name
 
 # function to test the model on test data
 def test(test_target = 'testdata', test_lines = 3):
