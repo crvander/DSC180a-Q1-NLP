@@ -17,30 +17,63 @@ pip install -r requirements.txt
 # downloading our finetuned models from google drive, unzip model folders, trainning process for new model,
 # predict sentiments on testing dataset
 
-run python3 run.py generate_data download_models train test
+python3 run.py generate_data download_models train test
 
 # for default testing run (submission for Quater1), no argument needed
 # test run will download, unzip our finetuned models from google drive,
 # predict on dummy testdata(3 samples) and output predicted labels
 
-run python3 run.py
+python3 run.py
 ```
 
 ### File structure and configuration
-All configuration will be read from config folder, data-params.yml will be read when generating data,
-model_config.yml will be read when downloading,unzipping finetuned models,
-train-params.yml will be read as training hyperparameters as well as io path,
-test-params.yml consists io for test dataset and testrun dummy dataset.
+All configuration will be read from config folder, **data-params.yml** will be read when generating data, **model_config.yml** will be read when downloading, unzipping finetuned models, **train-params.yml** will be read as training hyperparameters as well as io path, **test-params.yml** consists io for test dataset and testrun dummy dataset.
 
-Raw dataset will be scraped from data sources and saved in data/raw, 
-processed data will be saved in data/temp
-predictions will be saved in data/out, all datafiles will be saved in .csv file.
+Raw dataset will be scraped from data sources and saved in data/raw, processed data will be saved in data/temp predictions will be saved in data/out, all datafiles will be saved in .csv file.
 
-Finetuned models, no matter directly output from training process, or download from google shared drive, 
-all will be saved in results folder
+Finetuned models, no matter directly output from training process, or download from google shared drive, all will be saved in results folder **train.py** will download pretrained models from Hugging Face hub, and read data from data/temp, finally save finetuned model to result folder.
 
-train.py will download pretrained models from Hugging Face hub, and read data from data/temp, finally save finetuned model to result folder.
+**test.py** will take two argument, test_target and test_lines. test_target can be specified as testing, which will generate prediction on testing data
+or default as test to predict on testrun dummy data. All prediction will be saved in data/out.
 
-test.py will take two argument, test_target and test_lines. test_target can be specified as test, which will generate prediction on testing data
-or default as testdata to predict on testrun dummy data. All prediction will be saved in data/out
+```
+DSC180a-Q1-NLP                                                     //
+├─ .git                                                            //
+├─ config                                                          //
+│  ├─ data-params.yml                                              //
+|  ├─ model_config.yml                                             //
+│  ├─ test-params.yml                                              //
+│  └─ train-params.yml                                             //
+├─ data                                                            //
+│  ├─ kaggle.json                                                  //
+│  ├─ out                                                          //
+│  │  ├─ model.joblib                                              //
+│  │  └─ preds.csv                                                 //
+│  ├─ raw                                                          //
+│  ├─ temp                                                         //
+│  │  ├─ test.csv                                                  //
+│  │  └─ train.csv                                                 //
+├─ myapp.log                                                       //
+├─ README.md                                                       //
+├─ run.py                                                          //
+├─ spacy                                                           //
+│  ├─ .DS_Store                                                    //
+│  └─ create_model.py                                              //
+├─ src                                                             //
+│  ├─ data                                                         //
+│  │  └─ make_dataset.py                                           //
+│  ├─ test.py                                                      //
+│  ├─ train.py                                                     //
+│  ├─ utils                                                        //
+│  │     └─ download_models.py                                     //
+├─ submission.json                                                 //
+├─ test                                                            //
+│  └─ testdata                                                     //
+│     └─ test.csv                                                  //
+├─ twitter                                                         //
+│  ├─ pull_tweets.py                                               //
+│  └─ twitter_credentials.py                                       //
+├─ _requirements.txt                                               //
+└─ _run.py                                                         //
+```
 
