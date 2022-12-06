@@ -42,11 +42,11 @@ def download_data():
     dir = os.listdir(save_path_raw)
     logging.info('downloading datasets....')
     # commands to download dataset from Kaggle
-    if ds1 not in dir:
+    if ds1 not in dir: # detect if dataset 1 being downloaded
         subprocess.run('~/.local/bin/kaggle datasets download -p {} {}'.format(save_path_raw, ds1_path), shell = True, stdout = subprocess.PIPE)
-    if ds2 not in dir:
+    if ds2 not in dir: # detect if dataset 2 being downloaded
         subprocess.run('~/.local/bin/kaggle datasets download -p {} {}'.format(save_path_raw, ds2_path), shell = True, stdout = subprocess.PIPE)
-    if ds3 not in dir:
+    if ds3 not in dir: # detect if dataset 3 being downloaded
         subprocess.run('~/.local/bin/kaggle datasets download -p {} {}'.format(save_path_raw, ds3_path), shell = True, stdout = subprocess.PIPE)
     if (df1_name not in dir or df2_name not in dir ) or df3_name not in dir: # if any of the required file is not included
         subprocess.run('unzip {}/\*.zip -d {}'.format(save_path_raw, save_path_raw), shell = True, stdout = subprocess.PIPE) # unzip all the .zip files in the data raw folder
