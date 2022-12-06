@@ -7,6 +7,7 @@ from box import Box
 import yaml
 import os
 
+# access config files and extract necessary parameters
 with open('config/data-params.yml', 'r') as file:
     data_config = Box(yaml.full_load(file))
     
@@ -19,6 +20,7 @@ train_name = data_config.train_name
 test_name = data_config.test_name
 expand = data_config.expand
     
+# access datasets
 ds1 = data_config.ds1_name
 ds2 = data_config.ds2_name
 ds3 = data_config.ds3_name
@@ -33,9 +35,11 @@ df1_name = data_config.df1_name
 df2_name = data_config.df2_name
 df3_name = data_config.df3_name
 
+# function to pull online data from API
 def download_data():
     dir = os.listdir(save_path_raw)
     logging.info('downloading datasets....')
+    # commands to download dataset from Kaggle
     if ds1 not in dir:
         subprocess.run('~/.local/bin/kaggle datasets download -p {} {}'.format(save_path_raw, ds1_path), shell = True, stdout = subprocess.PIPE)
     if ds2 not in dir:
@@ -47,6 +51,7 @@ def download_data():
         # df4 = ... Dylan's api
     logging.info('downloading done.')
 
+# function to load dataset to cache
 def generate_data():
     logging.info('loading datasets from {}....'.format(save_path_raw))
     df1 = pd.read_csv('{}/{}'.format(save_path_raw, df1_name), delimiter=',', encoding='latin-1',
@@ -56,6 +61,7 @@ def generate_data():
     # df4 = ... Dylan's api
     logging.info('datasets loaded')
 
+    # function to convert sentiment labels to numerical values
     def convert_sentiment(sent):
         if sent == 'neutral':
             return 0
@@ -65,6 +71,7 @@ def generate_data():
             return -1
 
     logging.info('preprocessing...')
+    # data preprocessing
     df1['sentiment'] = df1['sentiment'].apply(convert_sentiment)
     df1 = df1[['text', 'sentiment']]
     df2.rename(columns={'Text': 'text', 'Sentiment': 'sentiment'}, inplace=True)
@@ -81,8 +88,10 @@ def generate_data():
     return df
 
 
+# function to save the processed dataset
 def save_data(df):
         logging.info('train test with {} split, random state {}'.format(split, str(random_state)))
+        # split the dataset into training and testing sets.
         train, test = train_test_split(df, test_size=split, random_state = random_state)
         logging.info('saving training and testing data...')
         train.to_csv(save_path + train_name, index=False)
