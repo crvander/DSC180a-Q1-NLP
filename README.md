@@ -34,5 +34,61 @@ Raw dataset will be scraped from data sources and saved in data/raw, processed d
 Finetuned models, no matter directly output from training process, or download from google shared drive, all will be saved in results folder **train.py** will download pretrained models from Hugging Face hub, and read data from data/temp, finally save finetuned model to result folder.
 
 **test.py** will take two argument, test_target and test_lines. test_target can be specified as test, which will generate prediction on testing data
-or default as testdata to predict on testrun dummy data. All prediction will be saved in data/out
+or default as testdata to predict on testrun dummy data. All prediction will be saved in data/out.
+
+DSC180a-Q1-NLP                                                     //
+├─ .git                                                            //
+├─ config                                                          //
+│  ├─ data-params.yml                                              //
+│  ├─ test-params.yml                                              //
+│  └─ train-params.yml                                             //
+├─ data                                                            //
+│  ├─ kaggle.json                                                  //
+│  ├─ out                                                          //
+│  │  ├─ model.joblib                                              //
+│  │  └─ preds.csv                                                 //
+│  ├─ raw                                                          //
+│  ├─ temp                                                         //
+│  │  ├─ .ipynb_checkpoints                                        //
+│  │  │  └─ Untitled-checkpoint.ipynb                              //
+│  │  ├─ test.csv                                                  //
+│  │  ├─ train.csv                                                 //
+│  │  └─ Untitled.ipynb                                            //
+│  ├─ temptest.csv                                                 //
+│  └─ temptrain.csv                                                //
+├─ myapp.log                                                       //
+├─ notebook                                                        //
+│  ├─ EDA & ETL.ipynb                                              //
+│  └─ Train.ipynb                                                  //
+├─ README.md                                                       //
+├─ run.py                                                          //
+├─ spacy                                                           //
+│  ├─ .DS_Store                                                    //
+│  └─ create_model.py                                              //
+├─ src                                                             //
+│  ├─ data                                                         //
+│  │  ├─ make_dataset.py                                           //
+│  │  └─ __pycache__                                               //
+│  │     ├─ make_dataset.cpython-310.pyc                           //
+│  │     └─ make_dataset.cpython-39.pyc                            //
+│  ├─ test.py                                                      //
+│  ├─ train.py                                                     //
+│  ├─ utils                                                        //
+│  │  └─ __pycache__                                               //
+│  │     ├─ test.cpython-39.pyc                                    //
+│  │     └─ train.cpython-39.pyc                                   //
+│  └─ __pycache__                                                  //
+│     ├─ test.cpython-310.pyc                                      //
+│     ├─ test.cpython-39.pyc                                       //
+│     ├─ train.cpython-310.pyc                                     //
+│     └─ train.cpython-39.pyc                                      //
+├─ submission.json                                                 //
+├─ test                                                            //
+│  └─ testdata                                                     //
+│     └─ test.csv                                                  //
+├─ twitter                                                         //
+│  ├─ pull_tweets.py                                               //
+│  └─ twitter_credentials.py                                       //
+├─ _requirements.txt                                               //
+└─ _run.py                                                         //
 
