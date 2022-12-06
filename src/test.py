@@ -8,22 +8,25 @@ import torch
 from transformers import AutoModelForSequenceClassification, AutoTokenizer, TextClassificationPipeline, pipeline
 import logging
 
+# access necessary parameters from config file
 with open('config/test-params.yml', 'r') as file:
     test_config = Box(yaml.full_load(file))
-model_path = test_config.model_path
-model_name = test_config.model_name
-test_path = test_config.test_path
-testdata_path = test_config.testdata_path
-output_dir = test_config.output_dir
-preds_name = test_config.preds_name
-preds_detail_name = test_config.preds_detail_name
+    model_path = test_config.model_path
+    model_name = test_config.model_name
+    test_path = test_config.test_path
+    testdata_path = test_config.testdata_path
+    output_dir = test_config.output_dir
+    preds_name = test_config.preds_name
+    preds_detail_name = test_config.preds_detail_name
 
+# function to test the model on test data
 def test(test_target = 'testdata', test_lines = 3):
     out = []
     if test_target == 'testdata':
         input_path = testdata_path
     if test_target == 'test':
         input_path = test_path
+    # access the trained model
     model_full_path = '{}/{}/'.format(model_path, model_name)
     logging.info('initiate testing from {} ...'.format(model_full_path))
     model = AutoModelForSequenceClassification.from_pretrained(model_full_path, num_labels = 3)
@@ -33,6 +36,7 @@ def test(test_target = 'testdata', test_lines = 3):
     logging.info('predicting ...'.format(input_path))
     pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer, top_k=1) # return_all_scores will return dict within list 
     
+    # test data prediction
     prediction = pipeline(testdata)
     
     logging.info('saving predictions to {} ...'.format(output_dir))
