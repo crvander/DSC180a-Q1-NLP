@@ -2,14 +2,11 @@ transformers == 4.24.0
 datasets == 2.7.0
 evaluate == 0.3.0
 python-box[all]~=6.0
-subprocess
-logging
-yaml
+PyYAML
 kaggle
 pandas
 torch
 sklearn
 numpy
-csv
-os
-sys
+requests
+gdown
