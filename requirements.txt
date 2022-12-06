@@ -6,7 +6,7 @@ PyYAML
 kaggle
 pandas
 torch
-sklearn
+scikit-learn
 numpy
 requests
 gdown
