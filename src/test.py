@@ -25,13 +25,13 @@ def test(test_target = 'testdata', test_lines = 3):
         input_path = testdata_path
     if test_target == 'test':
         input_path = test_path
-    # access the trained model
+    # access the finetuned model
     model_full_path = '{}/{}/'.format(model_path, model_name)
     logging.info('initiate testing from {} ...'.format(model_full_path))
-    model = AutoModelForSequenceClassification.from_pretrained(model_full_path, num_labels = 3)
-    tokenizer = AutoTokenizer.from_pretrained(model_full_path)
+    model = AutoModelForSequenceClassification.from_pretrained(model_full_path, num_labels = 3) # read in model
+    tokenizer = AutoTokenizer.from_pretrained(model_full_path) # read in tokenizer
     logging.info('loading test data from {} ...'.format(input_path))
-    testdata = list(pd.read_csv(input_path)['text'].head(test_lines)) # test out the first 50 from test.csv
+    testdata = list(pd.read_csv(input_path)['text'].head(test_lines)) # test out the first N samples from test target
     logging.info('predicting ...'.format(input_path))
     pipeline = TextClassificationPipeline(model=model, tokenizer=tokenizer, top_k=1) # return_all_scores will return dict within list 
     
@@ -42,8 +42,8 @@ def test(test_target = 'testdata', test_lines = 3):
     myFile = open('{}/{}'.format(output_dir,preds_name), 'w')
     writer = csv.writer(myFile)
     writer.writerow(['label', 'score'])
-    for i in prediction:
-        writer.writerow(i[0].values())
+    for i in prediction: # write the prediction label to csv file
+        writer.writerow(i[0].values()) 
     myFile.close()        
                 
     logging.info('testing done')
